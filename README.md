@@ -4,3 +4,5 @@
 
 [Notes and Tasks](https://docs.google.com/document/d/1CJQ8bNQejyep2oeIhI_lM2yuSq9l853U1ZT24V2jTEw/edit?usp=sharing)
 
+[Covid-19 Dataset](https://github.com/CSSEGISandData/COVID-19)
+
