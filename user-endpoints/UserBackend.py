@@ -76,6 +76,11 @@ def get_search():
         search = SearchEngine(simple_zipcode=True)
     return search
 
+@app.route("/register", methods = ["POST"])
+def register_user():
+    data = request.get_json()
+    return jsonify(str(data["phone"]) + str(data["zipcode"]))
+
 # endpoint que llame al endpoint de county
 @app.route("/send")
 def send_data():
