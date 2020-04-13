@@ -1,5 +1,6 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from uszipcode import SearchEngine
+import MySQLdb
 import requests
 import json
 
@@ -69,6 +70,18 @@ users = [('5555555555', '94720'), ('5555555555', '94720')]
 app = Flask(__name__)
 
 search = None
+cursor = None
+db = None
+
+
+def get_db_connection():
+    global cursor
+    global db
+    if not cursor:
+        db = MySQLdb.connect("user-db-container", "root", "pass", "users")
+        cursor = db.cursor()
+    return cursor
+
 
 def get_search():
     global search
@@ -76,10 +89,19 @@ def get_search():
         search = SearchEngine(simple_zipcode=True)
     return search
 
-@app.route("/register", methods = ["POST"])
+
+@app.route("/register", methods=['GET', 'POST'])
 def register_user():
-    data = request.get_json()
-    return jsonify(str(data["phone"]) + str(data["zipcode"]))
+    global db
+    cursor = get_db_connection()
+    name = request.form["first_name"]
+    surname = request.form["last_name"]
+    phone = request.form["phone"]
+    zipcode = request.form["zipcode"]
+    sql = f"INSERT INTO users (name, surname, phone, zipcode) VALUES (%s, %s, %s, %s)"
+    cursor.execute(sql, [name, surname, phone, zipcode])
+    db.commit()
+    return render_template("index.html")
 
 # endpoint que llame al endpoint de county
 @app.route("/send")
@@ -92,10 +114,11 @@ def send_data():
         state = states[zipcode["state"]].lower()
         county = zipcode["county"].replace(" County", "").lower()
         url = "http://arielms.pythonanywhere.com/query/{state}/{county}".format(
-            state = state, county = county)
+            state=state, county=county)
         response = requests.get(url)
         print(json.loads(response.text))
     return (''), 200
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, threaded=True, debug=True)
+
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=5001, threaded=True, debug=True)
