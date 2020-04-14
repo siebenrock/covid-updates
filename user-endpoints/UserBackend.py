@@ -3,6 +3,7 @@ from uszipcode import SearchEngine
 import MySQLdb
 import requests
 import json
+from twilio import twiml
 
 states = {
     'AK': 'Alaska',
@@ -64,8 +65,6 @@ states = {
     'WY': 'Wyoming'
 }
 
-users = [('5555555555', '94720'), ('5555555555', '94720')]
-
 # Initiate app
 app = Flask(__name__)
 
@@ -104,21 +103,34 @@ def register_user():
     return render_template("index.html")
 
 # endpoint que llame al endpoint de county
-@app.route("/send")
+@app.route("/send", methods=['POST'])
 def send_data():
     search = get_search()
-    for user in users:
-        user_zip_code = user[1]
-        zipcode = search.by_zipcode(str(user_zip_code))
+    cursor = get_db_connection()
+
+    cursor.execute("SELECT name, surname, phone, zipcode from users")
+    data = cursor.fetchall()
+    list_users = {"users": list()}
+    for row in data:
+        response_msg = dict()
+        response_msg["name"] = row[0]
+        response_msg["surname"] = row[1]
+        response_msg["phone"] = row[2]
+        response_msg["zipcode"] = row[3]
+        list_users["users"].append(response_msg)
+
+        zipcode = search.by_zipcode(response_msg["zipcode"])
         zipcode = zipcode.to_dict()
         state = states[zipcode["state"]].lower()
         county = zipcode["county"].replace(" County", "").lower()
         url = "http://arielms.pythonanywhere.com/query/{state}/{county}".format(
             state=state, county=county)
         response = requests.get(url)
-        print(json.loads(response.text))
+        response_dict = json.loads(response.text)
+        # returns a list with 1 object
+        # keys are Confirmed, Deaths, Recovered, Active, Date
+        # print(response_dict)
+        
+        # TODO Add twilio request below
+
     return (''), 200
-
-
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', port=5001, threaded=True, debug=True)
