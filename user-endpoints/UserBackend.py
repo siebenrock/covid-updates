@@ -111,7 +111,6 @@ def register_user():
     except:
         return "error: couldn't register user", 400
 
-### update user
 @app.route("/update/<phone>", methods=['PUT'])
 def update_user(phone):
     if exists(phone):
@@ -134,7 +133,22 @@ def update_user(phone):
     else:
         return "error: user doesn't exist", 400
 
-## delete user for Ananya
+@app.route("/unsubscribe/<int:phone>", methods=['GET', 'POST'])
+def unsubscribe_user(phone):
+    global db
+    cursor = get_db_connection()
+
+    sql_check= f"SELECT FROM users WHERE phone = %s"
+    cursor.execute(sql, [phone])
+    data = cursor.fetchall()
+    if not data:
+        return "error: user doesn't exist", 404
+
+    sql = f"DELETE FROM users WHERE phone = %s"
+    cursor.execute(sql, [phone])
+    db.commit()
+    return "sucess", 204
+
 
 # endpoint que llame al endpoint de county
 @app.route("/send", methods=['POST'])
