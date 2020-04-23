@@ -1,16 +1,15 @@
 # create a new network for my webserver container and my sql database container
 docker network create user-network
 
-##docker kill user-server-container
-##docker rm user-server-container
-
 # create the docker image for the server and create the server container
 docker build -t userserver .
 
 docker run  -dit --name=user-server-container --network user-network -e FLASK_APP=UserBackend.py -p 5000:5000 userserver
 
+docker logs -f user-server-container
+
 # run mysql container but add it to my-network
-docker run --name user-db-container -e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=users -v //c//Users//ari11//Documents//github//backend-project//user-endpoints//db://db --network user-network -dit mysql:latest --default-authentication-plugin=mysql_native_password
+docker run --name user-db-container -e MYSQL_ROOT_PASSWORD=pass  -e MYSQL_DATABASE=users -v ~/Desktop/backend-project/user-endpoints/db:/db --network user-network -dit mysql:latest --default-authentication-plugin=mysql_native_password
 
 # useful mysql commands
 
@@ -24,7 +23,7 @@ mysql -uroot -p
 show databases;
 
 # Let's select the demo database we created on initialization
-use tasks;
+use users;
 
 # We are now in the database. We can now create tables and run query commands. To verify that we have no tables, let's view all of the tables;
 show tables;
@@ -38,5 +37,5 @@ CREATE TABLE users (
     zipcode VARCHAR(30) NOT NULL
 );
 
-# add attribute to table
-ALTER TABLE tasks ADD notify VARCHAR(50) NOT NULL
+# to see the structure of the table
+show columns from users;

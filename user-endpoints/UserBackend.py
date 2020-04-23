@@ -88,19 +88,53 @@ def get_search():
         search = SearchEngine(simple_zipcode=True)
     return search
 
-
 @app.route("/register", methods=['GET', 'POST'])
 def register_user():
     global db
     cursor = get_db_connection()
-    name = request.form["first_name"]
-    surname = request.form["last_name"]
-    phone = request.form["phone"]
-    zipcode = request.form["zipcode"]
-    sql = f"INSERT INTO users (name, surname, phone, zipcode) VALUES (%s, %s, %s, %s)"
-    cursor.execute(sql, [name, surname, phone, zipcode])
-    db.commit()
-    return render_template("index.html")
+    data = request
+
+    if data.form:
+        data = data.form
+    else:
+        data = data.get_json()
+
+    try:
+        name = data["first_name"]
+        surname = data["last_name"]
+        phone = data["phone"]
+        zipcode = data["zipcode"]
+        sql = f"INSERT INTO users (name, surname, phone, zipcode) VALUES (%s, %s, %s, %s)"
+        cursor.execute(sql, [name, surname, phone, zipcode])
+        db.commit()
+        return render_template("index.html"), 200
+    except:
+        return "error: couldn't register user", 400
+
+### update user
+@app.route("/update/<phone>", methods=['PUT'])
+def update_user(phone):
+    if exists(phone):
+        cursor = get_db_connection()
+        data = request
+
+        if data.form:
+            data = data.form
+        else:
+            data = data.get_json()
+
+        name = data["first_name"]
+        surname = data["last_name"]
+        new_phone = data["phone"]
+        new_zipcode = data["zipcode"]
+        sql = f"UPDATE users SET phone = %s, zipcode = %s WHERE phone = %s"
+        cursor.execute(sql, [new_phone, new_zipcode, phone])
+        db.commit()
+        return "sucess", 200
+    else:
+        return "error: user doesn't exist", 400
+
+## delete user for Ananya
 
 # endpoint que llame al endpoint de county
 @app.route("/send", methods=['POST'])
@@ -130,7 +164,23 @@ def send_data():
         # returns a list with 1 object
         # keys are Confirmed, Deaths, Recovered, Active, Date
         # print(response_dict)
-        
+
         # TODO Add twilio request below
 
     return (''), 200
+
+def exists(phone):
+    try:
+        print('gets here1')
+        sql = "SELECT * FROM users WHERE phone = %s"
+        cursor = get_db_connection()
+        cursor.execute(sql, [phone])
+        data = cursor.fetchall()
+        data = data[0]
+        name = data[0]
+        surname = data[1]
+        phone = data[2]
+        zipcode = data[3]
+        return True
+    except:
+        return False
