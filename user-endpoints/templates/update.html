@@ -131,8 +131,8 @@
 <body>
 	<div class="signup-form">
 		<form id="userForm" action="http://localhost:5000/register" method="POST">
-			<h2>Sign Up</h2>
-			<p class="hint-text">Sign Up. It's free and takes less than minute.</p>
+			<h2>Update</h2>
+			<p class="hint-text">Please fill all the values.</p>
 			<div class="form-group">
 				<div class="row">
 					<div class="col-xs-6"><input type="text" class="form-control" name="first_name"
@@ -142,17 +142,20 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" name="phone" placeholder="Phone Number" required="required">
+				<input type="text" class="form-control" name="last_phone" placeholder="Last Phone Number" required="required">
+            </div>
+            <div class="form-group">
+				<input type="text" class="form-control" name="new_phone" placeholder="New Phone Number" required="required">
 			</div>
 			<div class="form-group">
 				<input type="text" class="form-control" name="zipcode" placeholder="Zip Code" required="required">
 			</div>
 			<div class="form-group">
 				<button type="submit" name="subuser" id="subuser" class="btn btn-success btn-lg btn-block"
-					disabled="disabled">Register Now</button>
+					disabled="disabled">Update Information</button>
 			</div>
 			<div class="center">
-				<a href="update.html">Update User Information</a>
+				<a href="index.html">Subscribe</a>
 				<br>
 				or
 				<br>

@@ -112,25 +112,26 @@ def register_user():
         return "error: couldn't register user", 400
 
 ### update user
-@app.route("/update/<phone>", methods=['PUT'])
-def update_user(phone):
-    if exists(phone):
-        cursor = get_db_connection()
-        data = request
+@app.route("/update", methods=['POST'])
+def update_user():
+    cursor = get_db_connection()
+    data = request
 
-        if data.form:
-            data = data.form
-        else:
-            data = data.get_json()
+    if data.form:
+        data = data.form
+    else:
+        data = data.get_json()
 
+    last_phone = data["last_phone"]
+    if exists(last_phone):
         name = data["first_name"]
         surname = data["last_name"]
         new_phone = data["phone"]
         new_zipcode = data["zipcode"]
         sql = f"UPDATE users SET phone = %s, zipcode = %s WHERE phone = %s"
-        cursor.execute(sql, [new_phone, new_zipcode, phone])
+        cursor.execute(sql, [new_phone, new_zipcode, new_phone])
         db.commit()
-        return "sucess", 200
+        return render_template("index.html"), 200
     else:
         return "error: user doesn't exist", 400
 
