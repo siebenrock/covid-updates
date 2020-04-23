@@ -1,30 +1,21 @@
 $(function () {
-  $("#myForm").submit(function () {
-    // get all the inputs into an array.
-    var $inputs = $("#myForm :input");
+  var inputs = $("form#userForm input, form#userForm textarea");
 
-    // not sure if you wanted this, but I thought I'd add it.
-    // get an associative array of just the values.
-    var values = {};
-    $inputs.each(function () {
-      values[this.name] = $(this).val();
+  var validateInputs = function validateInputs(inputs) {
+    var validForm = true;
+    inputs.each(function (index) {
+      var input = $(this);
+      if (!input.val() || (input.type === "radio" && !input.is(":checked"))) {
+        $("#subuser").attr("disabled", "disabled");
+        validForm = false;
+      }
     });
+    return validForm;
+  };
 
-    console.log(values);
-  });
-
-  $("#add-button").click(function () {
-    let num1 = $("#add-num1").val();
-    let num2 = $("#add-num2").val();
-
-    $.ajax({
-      url: "http://192.168.99.100:5001/add",
-      type: "GET",
-      data: { num1: num1, num2: num2 },
-      dataType: "json",
-    }).done(function (data) {
-      console.log(data.answer);
-      $("#add-answer").val(data.answer);
-    });
+  inputs.change(function () {
+    if (validateInputs(inputs)) {
+      $("#subuser").removeAttr("disabled");
+    }
   });
 });

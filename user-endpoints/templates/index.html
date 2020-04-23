@@ -125,7 +125,7 @@
 
 <body>
 	<div class="signup-form">
-		<form action="http://localhost:5000/register" method="POST">
+		<form id="userForm" action="http://localhost:5000/register" method="POST">
 			<h2>Sign Up</h2>
 			<p class="hint-text">Sign Up. It's free and takes less than minute.</p>
 			<div class="form-group">
@@ -143,7 +143,7 @@
 				<input type="text" class="form-control" name="zipcode" placeholder="Zip Code" required="required">
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+				<button type="submit" name="subuser" id="subuser" class="btn btn-success btn-lg btn-block" disabled="disabled">Register Now</button>
 			</div>
 		</form>
 	</div>
