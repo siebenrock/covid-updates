@@ -4,6 +4,7 @@ import MySQLdb
 import requests
 import json
 from twilio import twiml
+from apscheduler.schedulers.background import BackgroundScheduler
 
 states = {
     'AK': 'Alaska',
@@ -67,6 +68,14 @@ states = {
 
 # Initiate app
 app = Flask(__name__)
+
+def sensor():
+    """ Function for test purposes. """
+    print("Scheduler is alive!")
+
+sched = BackgroundScheduler(daemon=True)
+sched.add_job(sensor,'interval',minutes=1)
+sched.start()
 
 search = None
 cursor = None
