@@ -88,6 +88,7 @@ def get_search():
         search = SearchEngine(simple_zipcode=True)
     return search
 
+
 @app.route("/register", methods=['GET', 'POST'])
 def register_user():
     global db
@@ -111,7 +112,7 @@ def register_user():
     except:
         return "error: couldn't register user", 400
 
-### update user
+# update user
 @app.route("/update", methods=['POST'])
 def update_user():
     cursor = get_db_connection()
@@ -126,16 +127,17 @@ def update_user():
     if exists(last_phone):
         name = data["first_name"]
         surname = data["last_name"]
-        new_phone = data["phone"]
-        new_zipcode = data["zipcode"]
-        sql = f"UPDATE users SET phone = %s, zipcode = %s WHERE phone = %s"
-        cursor.execute(sql, [new_phone, new_zipcode, new_phone])
+        new_phone = data["new_phone"]
+        zipcode = data["zipcode"]
+        sql = "UPDATE users SET name = '{name}', surname = '{surname}', phone = '{phone}', zipcode = '{zipcode}' WHERE phone = {last_phone}".format(
+            name=str(name), surname=str(surname), phone=str(new_phone), zipcode=str(zipcode), last_phone = str(last_phone))
+        cursor.execute(sql)
         db.commit()
         return render_template("index.html"), 200
     else:
         return "error: user doesn't exist", 400
 
-## delete user for Ananya
+# delete user for Ananya
 
 # endpoint que llame al endpoint de county
 @app.route("/send", methods=['POST'])
@@ -170,12 +172,14 @@ def send_data():
 
     return (''), 200
 
+
 def exists(phone):
     try:
         print('gets here1')
-        sql = "SELECT * FROM users WHERE phone = %s"
+        sql = "SELECT * FROM users WHERE phone = '{phone}'".format(
+            phone=str(phone))
         cursor = get_db_connection()
-        cursor.execute(sql, [phone])
+        cursor.execute(sql)
         data = cursor.fetchall()
         data = data[0]
         name = data[0]

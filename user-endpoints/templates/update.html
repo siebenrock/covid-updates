@@ -130,7 +130,7 @@
 
 <body>
 	<div class="signup-form">
-		<form id="userForm" action="http://localhost:5000/register" method="POST">
+		<form id="userForm" action="http://192.168.99.100:5000/update" method="POST">
 			<h2>Update</h2>
 			<p class="hint-text">Please fill all the values.</p>
 			<div class="form-group">
@@ -142,10 +142,12 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" name="last_phone" placeholder="Last Phone Number" required="required">
-            </div>
-            <div class="form-group">
-				<input type="text" class="form-control" name="new_phone" placeholder="New Phone Number" required="required">
+				<input type="text" class="form-control" name="last_phone" placeholder="Last Phone Number"
+					required="required">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="new_phone" placeholder="New Phone Number"
+					required="required">
 			</div>
 			<div class="form-group">
 				<input type="text" class="form-control" name="zipcode" placeholder="Zip Code" required="required">
@@ -154,14 +156,14 @@
 				<button type="submit" name="subuser" id="subuser" class="btn btn-success btn-lg btn-block"
 					disabled="disabled">Update Information</button>
 			</div>
-			<div class="center">
-				<a href="index.html">Subscribe</a>
-				<br>
-				or
-				<br>
-				<a href="unsubscribe.html">Unsubscribe</a>
-			</div>
 		</form>
+		<div class="center">
+			<a href="index.html">Subscribe</a>
+			<br>
+			or
+			<br>
+			<a href="unsubscribe.html">Unsubscribe</a>
+		</div>
 	</div>
 	<script src="js/jquery.js"></script>
 	<script src="js/script.js"></script>
