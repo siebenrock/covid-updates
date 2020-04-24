@@ -33,8 +33,8 @@ CREATE TABLE users (
     id int unsigned not null auto_increment primary key,
     name VARCHAR(100) NOT NULL,
     surname VARCHAR(100) NOT NULL,
-    phone VARCHAR(30) NOT NULL,
-    zipcode VARCHAR(30) NOT NULL
+    phone VARCHAR(10) NOT NULL,
+    zipcode VARCHAR(5) NOT NULL
 );
 
 # to see the structure of the table
