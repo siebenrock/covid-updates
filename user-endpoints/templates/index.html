@@ -125,12 +125,21 @@
 			color: #999;
 			text-align: center;
 		}
+
+		.hide {
+			position: absolute;
+			top: -1px;
+			left: -1px;
+			width: 1px;
+			height: 1px;
+		}
 	</style>
 </head>
 
 <body>
 	<div class="signup-form">
-		<form id="userForm" action="http://192.168.99.100:5000/register" method="POST">
+		<iframe name="hiddenFrame" class="hide"></iframe>
+		<form id="userForm" action="http://192.168.99.100:5000/register" method="POST" target="hiddenFrame">
 			<h2>Sign Up</h2>
 			<p class="hint-text">Sign Up. It's free and takes less than minute.</p>
 			<div class="form-group">

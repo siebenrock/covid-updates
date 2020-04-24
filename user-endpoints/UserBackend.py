@@ -117,7 +117,7 @@ def register_user():
         sql = f"INSERT INTO users (name, surname, phone, zipcode) VALUES (%s, %s, %s, %s)"
         cursor.execute(sql, [name, surname, phone, zipcode])
         db.commit()
-        return render_template("index.html"), 200
+        return (''), 200
     except:
         return "error: couldn't register user", 400
 
@@ -142,7 +142,7 @@ def update_user():
             name=str(name), surname=str(surname), phone=str(new_phone), zipcode=str(zipcode), last_phone = str(last_phone))
         cursor.execute(sql)
         db.commit()
-        return render_template("index.html"), 200
+        return (''), 200
     else:
         return "error: user doesn't exist", 400
 
