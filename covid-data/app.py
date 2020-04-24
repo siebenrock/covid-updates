@@ -81,13 +81,6 @@ def get():
         return jsonify("No data")
     df = data
 
-    print("--------")
-    print(request.args)#
-    print(request.args.getlist('name[]'))
-    print(request.args.to_dict())
-    print(request.form.to_dict())
-    print("--------")
-
     # State and county given
     if "state" in request.args and "county" in request.args:
         state = request.args.get("state").lower()
