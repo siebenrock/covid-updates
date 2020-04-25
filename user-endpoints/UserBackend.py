@@ -4,6 +4,7 @@ import MySQLdb
 import requests
 import json
 from twilio import twiml
+from apscheduler.schedulers.background import BackgroundScheduler
 
 states = {
     'AK': 'Alaska',
@@ -68,6 +69,14 @@ states = {
 # Initiate app
 app = Flask(__name__)
 
+def sensor():
+    """ Function for test purposes. """
+    print("Scheduler is alive!")
+
+sched = BackgroundScheduler(daemon=True)
+sched.add_job(sensor,'interval',minutes=1)
+sched.start()
+
 search = None
 cursor = None
 db = None
@@ -88,6 +97,7 @@ def get_search():
         search = SearchEngine(simple_zipcode=True)
     return search
 
+
 @app.route("/register", methods=['GET', 'POST'])
 def register_user():
     global db
@@ -107,32 +117,36 @@ def register_user():
         sql = f"INSERT INTO users (name, surname, phone, zipcode) VALUES (%s, %s, %s, %s)"
         cursor.execute(sql, [name, surname, phone, zipcode])
         db.commit()
-        return render_template("index.html"), 200
+        return (''), 200
     except:
         return "error: couldn't register user", 400
 
-@app.route("/update/<phone>", methods=['PUT'])
-def update_user(phone):
-    if exists(phone):
-        cursor = get_db_connection()
-        data = request
+# update user
+@app.route("/update", methods=['POST'])
+def update_user():
+    cursor = get_db_connection()
+    data = request
+    
+    if data.form:
+        data = data.form
+    else:
+        data = data.get_json()
 
-        if data.form:
-            data = data.form
-        else:
-            data = data.get_json()
-
+    last_phone = data["last_phone"]
+    if exists(last_phone):
         name = data["first_name"]
         surname = data["last_name"]
-        new_phone = data["phone"]
-        new_zipcode = data["zipcode"]
-        sql = f"UPDATE users SET phone = %s, zipcode = %s WHERE phone = %s"
-        cursor.execute(sql, [new_phone, new_zipcode, phone])
+        new_phone = data["new_phone"]
+        zipcode = data["zipcode"]
+        sql = "UPDATE users SET name = '{name}', surname = '{surname}', phone = '{phone}', zipcode = '{zipcode}' WHERE phone = {last_phone}".format(
+            name=str(name), surname=str(surname), phone=str(new_phone), zipcode=str(zipcode), last_phone = str(last_phone))
+        cursor.execute(sql)
         db.commit()
-        return "sucess", 200
+        return (''), 200
     else:
         return "error: user doesn't exist", 400
 
+      
 @app.route("/unsubscribe/<int:phone>", methods=['GET', 'POST'])
 def unsubscribe_user(phone):
     global db
@@ -148,7 +162,6 @@ def unsubscribe_user(phone):
     cursor.execute(sql, [phone])
     db.commit()
     return "sucess", 204
-
 
 # endpoint que llame al endpoint de county
 @app.route("/send", methods=['POST'])
@@ -183,12 +196,14 @@ def send_data():
 
     return (''), 200
 
+
 def exists(phone):
     try:
         print('gets here1')
-        sql = "SELECT * FROM users WHERE phone = %s"
+        sql = "SELECT * FROM users WHERE phone = '{phone}'".format(
+            phone=str(phone))
         cursor = get_db_connection()
-        cursor.execute(sql, [phone])
+        cursor.execute(sql)
         data = cursor.fetchall()
         data = data[0]
         name = data[0]

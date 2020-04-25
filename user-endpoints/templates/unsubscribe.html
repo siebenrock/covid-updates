@@ -139,22 +139,11 @@
 <body>
 	<div class="signup-form">
 		<iframe name="hiddenFrame" class="hide"></iframe>
-		<form id="userForm" action="http://192.168.99.100:5000/register" method="POST" target="hiddenFrame">
-			<h2>Sign Up</h2>
-			<p class="hint-text">Sign Up. It's free and takes less than minute.</p>
-			<div class="form-group">
-				<div class="row">
-					<div class="col-xs-6"><input type="text" class="form-control" name="first_name"
-							placeholder="First Name" required="required"></div>
-					<div class="col-xs-6"><input type="text" class="form-control" name="last_name"
-							placeholder="Last Name" required="required"></div>
-				</div>
-			</div>
+		<form id="userForm" action="http://192.168.99.100:5000/delete" method="POST" target="hiddenFrame">
+			<h2>Bye</h2>
+			<p class="hint-text">Just provide your phone number to unsubscribe.</p>
 			<div class="form-group">
 				<input type="text" class="form-control" name="phone" placeholder="Phone Number" required="required">
-			</div>
-			<div class="form-group">
-				<input type="text" class="form-control" name="zipcode" placeholder="Zip Code" required="required">
 			</div>
 			<div class="form-group">
 				<button type="submit" name="subuser" id="subuser" class="btn btn-success btn-lg btn-block"
@@ -162,11 +151,11 @@
 			</div>
 		</form>
 		<div class="center">
-			<a href="update.html">Update User Information</a>
+			<a href="index.html">Register</a>
 			<br>
 			or
 			<br>
-			<a href="unsubscribe.html">Unsubscribe</a>
+			<a href="update.html">Update User Information</a>
 		</div>
 	</div>
 	<script src="js/jquery.js"></script>
