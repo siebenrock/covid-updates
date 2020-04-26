@@ -1,0 +1,14 @@
+#!/bin/bash
+# to run on mac first execute chmod +x run_user_server_script then execute ./run_user_server_script
+
+docker network create user-network
+
+docker kill user-server-container
+
+docker rm user-server-container
+
+docker build -t userserver .
+
+docker run  -dit --name=user-server-container --network user-network -e FLASK_APP=UserBackend.py -p 5000:5000 userserver
+
+docker logs -f user-server-container
