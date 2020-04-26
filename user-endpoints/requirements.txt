@@ -1,6 +1,6 @@
 flask
 flask_restful
-mysqlclient
+mysqlclient==1.4.6
 requests
 uszipcode
 twilio
