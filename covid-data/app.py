@@ -149,6 +149,25 @@ def get_states():
 
     return jsonify(df_dict), 200
 
+# Get totals
+@app.route("/total", methods=["GET"])
+def get_total():
+    global data, last_updated
+
+    # Check if data exists
+    if data is None:
+        return jsonify("No data"), 400
+
+    # Compute total
+    total = data[["Confirmed", "Deaths", "Recovered"]].sum()
+    total = total.to_dict()
+
+    # Include last update date
+    if len(total) != 0:
+        total.update({"Date": last_updated})
+
+    return jsonify(total), 200
+
 
 @app.route("/locate", methods=["GET"])
 def locate():
