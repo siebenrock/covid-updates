@@ -8,8 +8,8 @@ Given the current situation with COVID-19, we decided to explore the possibility
 For this reason, we worked on an API that will get the most recent COVID-19 confirmed/deaths/recovered cases and delivered this information based on user location.
 
 ## System Architecture
-
-
+![Sytem Architecture Image]
+(https://drive.google.com/a/berkeley.edu/file/d/1eExOQHsdXUMnOdteTENQgtBnMdEed9I0/view?usp=sharing)
 
 ## Getting Started
 
