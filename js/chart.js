@@ -65,8 +65,11 @@ async function draw_map() {
       let state_name = key.replace("-", " ")
         .split(" ").map((str) => str.charAt(0).toUpperCase() + str.substring(1)).join(" ");
       let tooltip = state_name + "\nConfirmed cases: " + format_case_number(value) +
-        "\nDeaths: " + format_case_number(data_raw[key]["Deaths"]) +
-        "\nRecovered cases: " + format_case_number(data_raw[key]["Recovered"]);
+        "\nDeaths: " + format_case_number(data_raw[key]["Deaths"])
+      if (data_raw[key]["Recovered"] !== 0) {
+        tooltip += "\nRecovered cases: " + format_case_number(data_raw[key]["Recovered"]);
+      };
+      "\nRecovered cases: " + format_case_number(data_raw[key]["Recovered"]);
       data.addRow(["US-" + states_to_abbr(key), value, tooltip]);
     }
   });
