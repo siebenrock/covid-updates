@@ -69,10 +69,8 @@
 // Show and hide forms for signup, update, unsubscribe
 const options = ["signup", "update", "unsubscribe"]
 $(document).on('click', 'button[id^="btn-"]', function(e) {
-  console.log("X" + this.id.slice(4) + "X");
 
   options.forEach((option) => {
-    console.log("--" + "#form-" + option)
     $("#form-" + option).hide();
     $("#btn-" + option).parent().show();
   });
