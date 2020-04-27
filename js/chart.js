@@ -1,14 +1,28 @@
-let URL = window.location.href.includes("index.html") ? "http://0.0.0.0:4001" : "http://0.0.0.0:4001";
+// let URL = window.location.href.includes("index.html") ? "http://0.0.0.0:4001" : "https://covid-api.onrender.com";
+let URL = "https://covid-api.onrender.com"
 
 google.charts.load('current', {
   'packages': ['geochart']
 });
-google.charts.setOnLoadCallback(drawRegionsMap);
+google.charts.setOnLoadCallback(draw_map);
+
+set_total()
 
 // Get data for all states
-async function get_states_data() {
+async function get_states() {
   try {
     let path = "/states";
+    const res = await axios.get(URL + path);
+    return res.data;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// Get totals
+async function get_total() {
+  try {
+    let path = "/total";
     const res = await axios.get(URL + path);
     return res.data;
   } catch (e) {
@@ -30,11 +44,10 @@ function format_case_number(number) {
 }
 
 // Draw map with states
-async function drawRegionsMap() {
+async function draw_map() {
 
   // Get data and transform
-  const data_raw = await get_states_data();
-
+  const data_raw = await get_states();
 
   // Setup Google data table
   var data = new google.visualization.DataTable();
@@ -52,7 +65,7 @@ async function drawRegionsMap() {
       let state_name = key.replace("-", " ")
         .split(" ").map((str) => str.charAt(0).toUpperCase() + str.substring(1)).join(" ");
       let tooltip = state_name + "\nConfirmed cases: " + format_case_number(value) +
-        "\nDeath cases: " + format_case_number(data_raw[key]["Deaths"]) +
+        "\nDeaths: " + format_case_number(data_raw[key]["Deaths"]) +
         "\nRecovered cases: " + format_case_number(data_raw[key]["Recovered"]);
       data.addRow(["US-" + states_to_abbr(key), value, tooltip]);
     }
@@ -77,7 +90,7 @@ async function drawRegionsMap() {
       textStyle: {
         color: 'black',
         fontSize: 14,
-        bold: true,
+        bold: false,
       },
       showColorCode: true,
     },
@@ -92,4 +105,18 @@ async function drawRegionsMap() {
   let chart = new google.visualization.GeoChart(document.getElementById("chart-map"));
 
   chart.draw(data, options);
+}
+
+// Set total numbers
+async function set_total() {
+
+  // Get data
+  const total = await get_total();
+
+  // Set numbers
+  $("#confirmed").html(format_case_number(total["Confirmed"]));
+  $("#deaths").html(format_case_number(total["Deaths"]));
+  $("#recovered").html(format_case_number(total["Recovered"]));
+  $("#last_update").html("Last update: " + total["Date"].slice(0, 17));
+
 }

@@ -22,31 +22,60 @@
 <body>
 
 
-	<div class="container d-flex h-100 flex-column">
-		<div class="row flex-fill d-flex">
-			<div class="col-8 col-xs-12 flex-fill d-flex">
-				<div class="cell-wrapper flex-fill d-flex">
-					<h3>Across States</h3>
-					<div class="chart-wrapper">
+	<div class="container" style="height: 80vh">
+		<div class="row">
+			<div class="col-8 col-xs-12 ">
+				<div class="row" style="padding-bottom: 20px;">
+					<div class="col-4 col-xs-12 ">
+						<div class="cell-wrapper number-wrapper">
+							<b class="case-number" id="confirmed">50,000</b>
+							<p>Confirmed cases</p>
+						</div>
+					</div>
+					<div class="col-4 col-xs-12 ">
+						<div class="cell-wrapper number-wrapper">
+							<b class="case-number" id="deaths">50,000</b>
+							<p>Deaths</p>
+						</div>
+					</div>
+					<div class="col-4 col-xs-12 ">
+						<div class="cell-wrapper number-wrapper">
+							<b class="case-number" id="recovered">50,000</b>
+							<p>Recovered cases</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="cell-wrapper ">
+					<h4>Cases across States</h4>
+					<p>Hover on a state to see more</p>
+					<div class="chart-wrapper" style="margin-top: -20px">
 						<div id="chart-map"></div>
 					</div>
 				</div>
+				<div style="width: 100%; text-align: center; margin: 24px;">
+					<p id="last_update">HEllo
+					<p>
+				</div>
 			</div>
 
-			<div class="col-4 col-xs-12 flex-fill d-flex">
-				<div class="cell-wrapper flex-fill d-flex">
+			<div class="col-4 col-xs-12 ">
+				<div class="cell-wrapper">
 					<form id="userForm" action="http://3.12.83.161:5000/register" method="POST" target="hiddenFrame">
-						<h3>Signup for Updates</h3>
-						<p class="hint-text">Sign Up. It's free and takes less than minute.</p>
+						<h3>Sign up for Updates</h3>
+						<p class="hint-text" style="margin-bottom: 30px;">You'll receive a daily SMS with updated cases in your county. Sign up now, it's free!</p>
 						<div class="form-group">
-							<input type="text" class="form-control" name="first_name" placeholder="First Name" required="required">
-							<input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required">
+							<label for="name">Name</label>
+							<input type="text" class="form-control" name="first_name" placeholder="John" required="required" id="name" style="margin-bottom: 10px;">
+							<input type="text" class="form-control" name="last_name" placeholder="Doe" required="required">
 						</div>
 						<div class="form-group">
-							<input type="text" class="form-control" name="phone" placeholder="Phone Number" required="required">
+							<label for="phone">Phone Number</label>
+							<input type="text" class="form-control" name="phone" placeholder="+1" required="required" id="phone">
 						</div>
 						<div class="form-group">
-							<input type="text" class="form-control" name="zipcode" placeholder="Zip Code" required="required">
+							<label for="zip">Phone Number</label>
+							<input type="text" class="form-control" name="zipcode" placeholder="94720" required="required" id="zip">
 						</div>
 						<div class="form-group">
 							<button type="submit" name="subuser" id="subuser" class="btn btn-success btn-lg btn-block" disabled="disabled">Register Now</button>
