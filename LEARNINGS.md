@@ -9,7 +9,6 @@ For this reason, we worked on an API that will get the most recent COVID-19 conf
 
 ## System Architecture
 ![Sytem Architecture Image]
-(https://drive.google.com/a/berkeley.edu/file/d/1eExOQHsdXUMnOdteTENQgtBnMdEed9I0/view?usp=sharing)
 
 ## Getting Started
 
