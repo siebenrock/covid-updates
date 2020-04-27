@@ -7,7 +7,7 @@ Given a user’s location, our service will return the updated number of COVID-1
 Given the current situation with COVID-19, we decided to explore the possibility of implementing an API that will deliver useful information to any person interested in knowing more about the virus.
 For this reason, we worked on an API that will get the most recent COVID-19 confirmed/deaths/recovered cases and delivered this information based on user location.
 
-## Diagram
+## System Architecture
 
 
 
