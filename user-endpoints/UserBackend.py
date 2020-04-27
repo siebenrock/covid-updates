@@ -179,12 +179,19 @@ def unsubscribe_user():
 def send_data():
     list_users = getUsers()
     for user in list_users["users"]:
-        phone = user["phone"]
-        msg = getCovidData(user["zipcode"])
+        phone = str(user["phone"])
+        zipcode = str(user["zipcode"])
+        msg = getCovidData(zipcode)
 
-        resp = sendSMS(msg, phone)
-        if resp == 'failed':
-            return (''), 404
+        if msg != "error":
+            resp = sendSMS(msg, phone)
+            if resp == 'failed':
+                print("failure, could not send to: " + phone + "\n")
+            else:
+                print("success, the following message was sent to: " + phone)
+                print(msg + "\n")
+        else:
+            print("failure, could not identify zipcode: " + zipcode + "\n")
 
     return (''), 200
 
@@ -213,7 +220,6 @@ def getTwilioClient():
 
 def sendSMS(msg, number):
     client = getTwilioClient()
-    print(msg)
     try:
         message = client.messages \
             .create(
@@ -243,23 +249,25 @@ def getUsers():
     return list_users
 
 def getCovidData(zipcode):
-    search = SearchEngine(simple_zipcode=True)
-    zipcode = search.by_zipcode(str(zipcode))
-    zipcode = zipcode.to_dict()
-    state = states[zipcode["state"]].lower()
-    county = zipcode["county"].replace(" County", "").lower()
-    url = "https://covid-api.onrender.com/get?state={state}&county={county}".format(
-        state=state, county=county)
-    response = requests.get(url)
-    print(json.loads(response.text))
-    response_dict = json.loads(response.text)
-    if str(response_dict['Recovered']) == '0':
-        msg = "COVID UPDATE " + state.upper() + ", " + county.upper() + " COUNTY. DATE: "+ str(response_dict['Date']) + "\n" \
-        "There are " + str(response_dict['Confirmed']) + " confirmed caes.\n" + \
-        "There are " + str(response_dict['Deaths']) + " confirmed deaths."
-    else:
-        msg = "COVID UPDATE " + state.upper() + ", " + county.upper() + " COUNTY. DATE: "+ str(response_dict['Date']) + "\n" \
-        "There are " + str(response_dict['Confirmed']) + " confirmed caes.\n" + \
-        "There are " + str(response_dict['Deaths']) + " confirmed deaths.\n" + \
-        "There are " + str(response_dict['Recovered']) + " confirmed recoveries."
-    return msg
+    try:
+        search = SearchEngine(simple_zipcode=True)
+        zipcode = search.by_zipcode(str(zipcode))
+        zipcode = zipcode.to_dict()
+        state = states[zipcode["state"]].lower()
+        county = zipcode["county"].replace(" County", "").lower()
+        url = "https://covid-api.onrender.com/get?state={state}&county={county}".format(
+            state=state, county=county)
+        response = requests.get(url)
+        response_dict = json.loads(response.text)
+        if str(response_dict['Recovered']) == '0':
+            msg = "COVID UPDATE " + state.upper() + ", " + county.upper() + " COUNTY. DATE: "+ str(response_dict['Date']) + "\n" \
+            "There are " + str(response_dict['Confirmed']) + " confirmed caes.\n" + \
+            "There are " + str(response_dict['Deaths']) + " confirmed deaths."
+        else:
+            msg = "COVID UPDATE " + state.upper() + ", " + county.upper() + " COUNTY. DATE: "+ str(response_dict['Date']) + "\n" \
+            "There are " + str(response_dict['Confirmed']) + " confirmed caes.\n" + \
+            "There are " + str(response_dict['Deaths']) + " confirmed deaths.\n" + \
+            "There are " + str(response_dict['Recovered']) + " confirmed recoveries."
+        return msg
+    except:
+        return "error"
