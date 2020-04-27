@@ -1,3 +1,4 @@
+// Validate form inputs
 $(function() {
   var inputs = $("form#userForm input, form#userForm textarea");
 
@@ -21,3 +22,19 @@ $(function() {
     }
   });
 });
+
+// Show and hide forms for signup, update, unsubscribe
+const options = ["signup", "update", "unsubscribe"]
+$(document).on('click', 'button[id^="btn-"]', function(e) {
+  console.log("X" + this.id.slice(4) + "X");
+
+  options.forEach((option) => {
+    console.log("--" + "#form-" + option)
+    $("#form-" + option).hide();
+    $("#btn-" + option).parent().show();
+  });
+
+  $("#form-" + this.id.slice(4)).show();
+  $("#" + this.id).parent().hide();
+
+})

@@ -80,7 +80,7 @@ async function draw_map() {
     region: 'US',
     displayMode: 'regions',
     resolution: 'provinces',
-    width: 670,
+    width: $(window).width() > 550 ? 670 : 380,
     backgroundColor: {
       fill: '#191a24',
     },
@@ -120,6 +120,6 @@ async function set_total() {
   $("#confirmed").html(format_case_number(total["Confirmed"]));
   $("#deaths").html(format_case_number(total["Deaths"]));
   $("#recovered").html(format_case_number(total["Recovered"]));
-  $("#last_update").html("Last update: " + total["Date"].slice(0, 17));
+  $("#last-update").html("Last update: " + total["Date"].slice(0, 17));
 
 }
