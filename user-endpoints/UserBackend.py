@@ -277,11 +277,11 @@ def getCovidData(zipcode):
         response_dict = json.loads(response.text)
         if str(response_dict['Recovered']) == '0':
             msg = "COVID UPDATE " + state.upper() + ", " + county.upper() + " COUNTY. DATE: "+ str(response_dict['Date']) + "\n" \
-            "There are " + str(response_dict['Confirmed']) + " confirmed caes.\n" + \
+            "There are " + str(response_dict['Confirmed']) + " confirmed cases.\n" + \
             "There are " + str(response_dict['Deaths']) + " confirmed deaths."
         else:
             msg = "COVID UPDATE " + state.upper() + ", " + county.upper() + " COUNTY. DATE: "+ str(response_dict['Date']) + "\n" \
-            "There are " + str(response_dict['Confirmed']) + " confirmed caes.\n" + \
+            "There are " + str(response_dict['Confirmed']) + " confirmed cases.\n" + \
             "There are " + str(response_dict['Deaths']) + " confirmed deaths.\n" + \
             "There are " + str(response_dict['Recovered']) + " confirmed recoveries."
         return msg
