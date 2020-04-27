@@ -65,6 +65,28 @@ The above command will:
 
 For more useful commands please check the setup.sh inside user-endpoints directory.
 
+Note: Run the following commands to create the table inside the database:
+
+```
+# Let's now tell docker to execute a command (bash) in the database-container container and make it interactive so that we can run commands inside the database-container container in another process (i.e. don't stop the mysql process within the docker container)
+docker exec -it user-db-container bash
+
+# Now we are inside the mysql container in a separate process. Let's run the mysql client app so that we can execute SQL queries
+mysql -uroot -p
+
+# Let's select the demo database we created on initialization
+use <name of database>;
+
+# create table
+CREATE TABLE users (
+    id int unsigned not null auto_increment primary key,
+    name VARCHAR(100) NOT NULL,
+    surname VARCHAR(100) NOT NULL,
+    phone VARCHAR(30) NOT NULL,
+    zipcode VARCHAR(30) NOT NULL
+);
+``` 
+
 ## Running the tests
 
 To run tests for the userserver endpoints (this endpoints register new user and send messages via Twilio) run:
@@ -73,10 +95,6 @@ To run tests for the userserver endpoints (this endpoints register new user and 
 # run this inside user-endpoints directory
 python tests.py
 ```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
