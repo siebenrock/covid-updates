@@ -4,6 +4,7 @@ import MySQLdb
 import requests
 import json
 from twilio import twiml
+from twilio.rest import Client
 from apscheduler.schedulers.background import BackgroundScheduler
 
 states = {
@@ -71,7 +72,7 @@ app = Flask(__name__)
 
 def sensor():
     """ Function for test purposes. """
-    print("Scheduler is alive!")
+    requests.post("http://localhost:5000/send")
 
 sched = BackgroundScheduler(daemon=True)
 sched.add_job(sensor,'interval',minutes=1)
@@ -126,46 +127,104 @@ def register_user():
 def update_user():
     cursor = get_db_connection()
     data = request
-    
+
     if data.form:
         data = data.form
     else:
         data = data.get_json()
 
-    last_phone = data["last_phone"]
+    last_phone = str(data["last_phone"])
+
     if exists(last_phone):
         name = data["first_name"]
         surname = data["last_name"]
         new_phone = data["new_phone"]
         zipcode = data["zipcode"]
-        sql = "UPDATE users SET name = '{name}', surname = '{surname}', phone = '{phone}', zipcode = '{zipcode}' WHERE phone = {last_phone}".format(
-            name=str(name), surname=str(surname), phone=str(new_phone), zipcode=str(zipcode), last_phone = str(last_phone))
-        cursor.execute(sql)
+        # sql = "UPDATE users SET name = '{name}', surname = '{surname}', phone = '{phone}', zipcode = '{zipcode}' WHERE phone = {last_phone}".format(
+        #     name=str(name), surname=str(surname), phone=str(new_phone), zipcode=str(zipcode), last_phone = str(last_phone))
+        # cursor.execute(sql)
+        sql = f"UPDATE users SET name = %s, surname = %s, phone = %s, zipcode = %s WHERE phone = %s"
+        cursor.execute(sql, [name, surname, new_phone, zipcode, last_phone])
         db.commit()
         return (''), 200
     else:
         return "error: user doesn't exist", 400
 
-      
-@app.route("/unsubscribe/<int:phone>", methods=['GET', 'POST'])
-def unsubscribe_user(phone):
+
+@app.route("/unsubscribe", methods=['POST'])
+def unsubscribe_user():
     global db
     cursor = get_db_connection()
 
-    sql_check= f"SELECT FROM users WHERE phone = %s"
-    cursor.execute(sql, [phone])
-    data = cursor.fetchall()
-    if not data:
-        return "error: user doesn't exist", 404
+    data = request
 
-    sql = f"DELETE FROM users WHERE phone = %s"
-    cursor.execute(sql, [phone])
-    db.commit()
-    return "sucess", 204
+    if data.form:
+        data = data.form
+    else:
+        data = data.get_json()
+
+    phone = data["phone"]
+
+    if exists(phone):
+        sql = f"DELETE FROM users WHERE phone = %s"
+        cursor.execute(sql, [phone])
+        db.commit()
+        return (''), 200
+    else:
+        return "error: user doesn't exist", 404
 
 # endpoint que llame al endpoint de county
 @app.route("/send", methods=['POST'])
 def send_data():
+    list_users = getUsers()
+    for user in list_users["users"]:
+        phone = user["phone"]
+        msg = getCovidData(user["zipcode"])
+
+        resp = sendSMS(msg, phone)
+        if resp == 'failed':
+            return (''), 404
+
+    return (''), 200
+
+
+def exists(phone):
+    try:
+        sql = "SELECT * FROM users WHERE phone = '{phone}'".format(
+            phone=str(phone))
+        cursor = get_db_connection()
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        data = data[0]
+        name = data[0]
+        surname = data[1]
+        phone = data[2]
+        zipcode = data[3]
+        return True
+    except:
+        return False
+
+def getTwilioClient():
+    account_sid = 'AC71c18c3fb2750f45f156ba3a884204b0'
+    auth_token = 'dcf2070f53ebf5da9082aaa6941abad0'
+    client = Client(account_sid, auth_token)
+    return client
+
+def sendSMS(msg, number):
+    client = getTwilioClient()
+    print(msg)
+    try:
+        message = client.messages \
+            .create(
+                 body=str(msg),
+                 messaging_service_sid='MG1e4b8901eff112fe61c2292994d6f5c9',
+                 to=str(number)
+             )
+        return 'sent'
+    except:
+        return 'failed'
+
+def getUsers():
     search = get_search()
     cursor = get_db_connection()
 
@@ -180,36 +239,20 @@ def send_data():
         response_msg["zipcode"] = row[3]
         list_users["users"].append(response_msg)
 
-        zipcode = search.by_zipcode(response_msg["zipcode"])
-        zipcode = zipcode.to_dict()
-        state = states[zipcode["state"]].lower()
-        county = zipcode["county"].replace(" County", "").lower()
-        url = "http://arielms.pythonanywhere.com/query/{state}/{county}".format(
-            state=state, county=county)
-        response = requests.get(url)
-        response_dict = json.loads(response.text)
-        # returns a list with 1 object
-        # keys are Confirmed, Deaths, Recovered, Active, Date
-        # print(response_dict)
+    return list_users
 
-        # TODO Add twilio request below
-
-    return (''), 200
-
-
-def exists(phone):
-    try:
-        print('gets here1')
-        sql = "SELECT * FROM users WHERE phone = '{phone}'".format(
-            phone=str(phone))
-        cursor = get_db_connection()
-        cursor.execute(sql)
-        data = cursor.fetchall()
-        data = data[0]
-        name = data[0]
-        surname = data[1]
-        phone = data[2]
-        zipcode = data[3]
-        return True
-    except:
-        return False
+def getCovidData(zipcode):
+    zipcode = search.by_zipcode(zipcode)
+    zipcode = zipcode.to_dict()
+    state = states[zipcode["state"]].lower()
+    county = zipcode["county"].replace(" County", "").lower()
+    url = "http://arielms.pythonanywhere.com/query/{state}/{county}".format(
+        state=state, county=county)
+    response = requests.get(url)
+    response_dict = json.loads(response.text)
+    response_dict = dict(response_dict[0])
+    msg = "COVID UPDATE " + state.upper() + ", " + county.upper() + " COUNTY. DATE: "+ str(response_dict['Date']) + "\n" \
+    "There are " + str(response_dict['Confirmed']) + " confirmed caes.\n" + \
+    "There are " + str(response_dict['Deaths']) + " confirmed deaths.\n" + \
+    "There are " + str(response_dict['Recovered']) + " confirmed recoveries."
+    return msg
