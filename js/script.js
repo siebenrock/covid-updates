@@ -2,6 +2,7 @@ $(function() {
   var inputs = $("form#userForm input, form#userForm textarea");
 
   var validateInputs = function validateInputs(inputs) {
+
     var validForm = true;
     inputs.each(function(index) {
       var input = $(this);
@@ -10,6 +11,7 @@ $(function() {
         validForm = false;
       }
     });
+
     return validForm;
   };
 
