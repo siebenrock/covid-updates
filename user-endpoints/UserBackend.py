@@ -99,6 +99,10 @@ def get_search():
         search = SearchEngine(simple_zipcode=True)
     return search
 
+# Info
+@app.route("/")
+def label():
+    return jsonify({"Description": "USER API"}), 200
 
 @app.route("/register", methods=['GET', 'POST'])
 def register_user():
@@ -149,11 +153,14 @@ def update_user():
         sql = f"UPDATE users SET name = %s, surname = %s, phone = %s, zipcode = %s WHERE phone = %s"
         cursor.execute(sql, [name, surname, new_phone, zipcode, last_phone])
         db.commit()
-        msg_last = "You have updated your information. You will not be receiving COVID Updates at this number anymore."
-        sendSMS(msg_last, last_phone)
-        msg_new = "You have updated your information. You will now be receiving COVID Updates at this number."
-        sendSMS(msg_new, new_phone)
-
+        if new_phone != last_phone:
+        	msg_last = "You have updated your information. You will no longer be receiving COVID Updates at " + str(last_phone) + ". You will now recieve updates at " + str(new_phone)
+        	sendSMS(msg_last, last_phone)
+        	msg_new = "You have updated your information. You will now receive COVID Updates at " + str(new_phone) + ". You will no longer be receiving COVID Updates at " + str(last_phone)
+        	sendSMS(msg_new, new_phone)
+       	else:
+       		msg = "You have updated your information."
+       		sendSMS(msg, new_phone)
         return (''), 200
     else:
         return "error: user doesn't exist", 400
@@ -177,7 +184,7 @@ def unsubscribe_user():
         sql = f"DELETE FROM users WHERE phone = %s"
         cursor.execute(sql, [phone])
         db.commit()
-        msg = "You have unsubscribed from COVID Updates"
+        msg = "You have unsubscribed from COVID Updates."
         sendSMS(msg, phone)
         return (''), 200
     else:
