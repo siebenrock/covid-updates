@@ -3,4 +3,3 @@ flask_restful
 requests
 pandas
 datetime
-io
