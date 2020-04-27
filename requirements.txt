@@ -1,0 +1,7 @@
+flask
+flask_restful
+mysqlclient==1.4.6
+requests
+uszipcode
+twilio
+apscheduler
