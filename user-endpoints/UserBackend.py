@@ -119,6 +119,8 @@ def register_user():
         sql = f"INSERT INTO users (name, surname, phone, zipcode) VALUES (%s, %s, %s, %s)"
         cursor.execute(sql, [name, surname, phone, zipcode])
         db.commit()
+        msg = "You have subscribed for COVID Updates."
+        sendSMS(msg, phone)
         return (''), 200
     except:
         return "error: couldn't register user", 400
@@ -147,6 +149,11 @@ def update_user():
         sql = f"UPDATE users SET name = %s, surname = %s, phone = %s, zipcode = %s WHERE phone = %s"
         cursor.execute(sql, [name, surname, new_phone, zipcode, last_phone])
         db.commit()
+        msg_last = "You have updated your information. You will not be receiving COVID Updates at this number anymore."
+        sendSMS(msg_last, last_phone)
+        msg_new = "You have updated your information. You will now be receiving COVID Updates at this number."
+        sendSMS(msg_new, new_phone)
+
         return (''), 200
     else:
         return "error: user doesn't exist", 400
@@ -170,6 +177,8 @@ def unsubscribe_user():
         sql = f"DELETE FROM users WHERE phone = %s"
         cursor.execute(sql, [phone])
         db.commit()
+        msg = "You have unsubscribed from COVID Updates"
+        sendSMS(msg, phone)
         return (''), 200
     else:
         return "error: user doesn't exist", 404
