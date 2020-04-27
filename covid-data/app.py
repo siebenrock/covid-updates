@@ -12,22 +12,23 @@ app.config['JSON_SORT_KEYS'] = False
 last_updated = None
 data = None
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def label():
     return jsonify({"Description": "Covid API for U.S.", "Example": "/query/california/alameda"})
 
-@app.route("/update")
-def update_data():
+@app.route("/update", methods=["GET"])
+def update():
 
     error = {"status": False, "message": ""}
 
     # Request .csv file from Github
     def request_file(date):
         URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/"
+        path = URL + date.strftime("%m-%d-%Y") + ".csv"
         global last_updated
 
         try:
-            res = requests.get(URL + date.strftime("%m-%d-%Y") + ".csv")
+            res = requests.get(path)
             print("Request status code:", res.status_code)
             last_updated = date
             error = {"status": False, "message": ""}
@@ -38,7 +39,6 @@ def update_data():
             return False, error
 
     res, error = request_file(date.today())
-    print("Date", date.today())
 
     # Return on error
     if error["status"]:
@@ -55,6 +55,7 @@ def update_data():
         df.rename(columns={'Admin2': 'County', 'Province_State': 'State', 'Country_Region': 'Country',
                            'Last_Update': 'Update', 'Long_': 'Long', 'Combined_Key': 'Key'}, inplace=True)
         df.set_index('Key', inplace=True)
+        df = df.drop(columns=["FIPS", "Lat", "Long"])
         for column in ["County", "State"]:
             df[column] = df[column].str.replace(' ','-')
             df[column] = df[column].str.lower()
@@ -67,31 +68,51 @@ def update_data():
 
     return jsonify("Data updated {}".format(last_updated.strftime("%m-%d-%Y")))
 
-@app.route("/last_update")
+@app.route("/last_update", methods=["GET"])
 def last_update():
     return jsonify(last_updated.strftime("%m-%d-%Y") if last_updated else "No data")
 
-@app.route("/query/<state>/<county>")
-def query(state, county):
+@app.route("/get", methods=["GET"])
+def get():
     global data, last_updated
-    state = state.lower()
-    county = county.lower()
 
     # Check if data exists
     if data is None:
-        return "No data"
-
-    # Filter df by state and county
+        return jsonify("No data")
     df = data
-    query = df[(df["State"] == state) & (df["County"] == county)][["Confirmed", "Deaths", "Recovered", "Active"]]
-    query_dict = query.to_dict(orient = "records")
+
+    # State and county given
+    if "state" in request.args and "county" in request.args:
+        state = request.args.get("state").lower()
+        county = request.args.get("county").lower()
+
+        # Filter df by state and county
+        query = df[(df["State"] == state) & (df["County"] == county)][["Confirmed", "Deaths", "Recovered", "Active"]]
+        query_dict = query.to_dict(orient = "records")[0]
+
+    # State but no county given
+    elif "state" in request.args and "county" not in request.args:
+        state = request.args.get("state").lower()
+
+        # Filter df by state
+        query = df[(df["State"] == state)][["Confirmed", "Deaths", "Recovered", "Active"]]
+        query = query.sum()
+        query_dict = query.to_dict()
+
+    # No state and no county given
+    elif "state" not in request.args and "county" not in request.args:
+        query = df[["Confirmed", "Deaths", "Recovered", "Active"]]
+        query = query.sum()
+        query_dict = query.to_dict()
+
     if len(query_dict) != 0:
-        query_dict[0].update({"Date": last_updated})
+        query_dict.update({"Date": last_updated})
 
     return jsonify(query_dict)
 
-@app.route("/locate")
+@app.route("/locate", methods=["GET"])
 def locate():
+    # Initial idea to locate user by IP address
     # ip_address = request.remote_addr
     ip_address = request.headers['X-Real-IP']
     URL = "http://api.ipstack.com/"
