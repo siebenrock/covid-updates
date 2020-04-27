@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 from datetime import date, timedelta
-#import io
+import io
 import requests
 
 # Initiate app
@@ -132,5 +132,5 @@ def locate():
     except:
         return jsonify("Error while retrieving location")
 
-#if __name__ == '__main__':
-    #app.run(host='0.0.0.0', port=5000, threaded=True, debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, threaded=True, debug=True)
