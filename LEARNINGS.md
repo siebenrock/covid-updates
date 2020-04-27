@@ -1,15 +1,15 @@
 # COVID-19 API
 
-Given a user’s location, our service will return the updated number of COVID-19 cases in their county.  A user can enter their name, phone number, and zipcode to sign up. Once subscribed, they will receive a daily text message with updated statistics.
+Given a user’s location, our service will return the updated number of COVID-19 cases in their county.  A user can enter their name, phone number, and zipcode to sign up. Once subscribed, they will receive a daily text message with updated statistics. Additionally, other services and applications can call our covid API in the case that they want to retrieve the most recent covid-19 data on a county basis!
 
-# Why We Built It
+## Why We Built It
 
-Given the current situation with COVID-19, we decided to explore the possibility of implementing an API that will deliver useful information to any person interested in knowing more about the diseases.
-For this reason, we worked on an API that will get the most recent COVID-19 confirmed/recovered/deaths cases and delivered this information based on user location.
+Given the current situation with COVID-19, we decided to explore the possibility of implementing an API that will deliver useful information to any person interested in knowing more about the virus.
+For this reason, we worked on an API that will get the most recent COVID-19 confirmed/deaths/recovered cases and delivered this information based on user location.
 
-## Diagram
-
-
+## System Architecture
+![Sytem Architecture Image]
+(https://drive.google.com/a/berkeley.edu/file/d/1eExOQHsdXUMnOdteTENQgtBnMdEed9I0/view?usp=sharing)
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ For you to run this API the following dependencies should be installed:
 * twilio
 * apscheduler
 
-Apart from this python libraries is important to have docker installed.
+Apart from this python libraries, it is important to have docker installed.
 
 Note: for Windows users please install docker toolbox.
 

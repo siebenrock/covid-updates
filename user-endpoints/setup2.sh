@@ -33,9 +33,15 @@ CREATE TABLE users (
     id int unsigned not null auto_increment primary key,
     name VARCHAR(100) NOT NULL,
     surname VARCHAR(100) NOT NULL,
-    phone VARCHAR(10) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
     zipcode VARCHAR(5) NOT NULL
 );
 
 # to see the structure of the table
 show columns from users;
+
+# to see content of the table
+SELECT * FROM users;
+
+# to delete content of table
+truncate table users;
