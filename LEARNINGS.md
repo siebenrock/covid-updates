@@ -4,7 +4,7 @@ Given a user’s location, our service will return the updated number of COVID-1
 
 # Why We Built It
 
-Given the current situation with COVID-19, we decided to explore the possibility of implementing an API that will deliver useful information to any person interested in knowing more about the diseases.
+Given the current situation with COVID-19, we decided to explore the possibility of implementing an API that will deliver useful information to any person interested in knowing more about the virus.
 For this reason, we worked on an API that will get the most recent COVID-19 confirmed/recovered/deaths cases and delivered this information based on user location.
 
 ## Diagram
