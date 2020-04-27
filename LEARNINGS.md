@@ -2,7 +2,7 @@
 
 Given a user’s location, our service will return the updated number of COVID-19 cases in their county.  A user can enter their name, phone number, and zipcode to sign up. Once subscribed, they will receive a daily text message with updated statistics.
 
-# Why We Built It
+## Why We Built It
 
 Given the current situation with COVID-19, we decided to explore the possibility of implementing an API that will deliver useful information to any person interested in knowing more about the virus.
 For this reason, we worked on an API that will get the most recent COVID-19 confirmed/deaths/recovered cases and delivered this information based on user location.
