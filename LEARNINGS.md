@@ -27,7 +27,7 @@ For you to run this API the following dependencies should be installed:
 * twilio
 * apscheduler
 
-Apart from this python libraries is important to have docker installed.
+Apart from this python libraries, it is important to have docker installed.
 
 Note: for Windows users please install docker toolbox.
 
