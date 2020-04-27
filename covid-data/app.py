@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 from datetime import date, timedelta
-#import io
+import io
 import requests
 
 # Initiate app
