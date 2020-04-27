@@ -9,6 +9,7 @@ For this reason, we worked on an API that will get the most recent COVID-19 conf
 
 ## System Architecture
 ![Sytem Architecture Image]
+(https://github.com/siebenrock/backend-project/blob/master/Flow.png)
 
 ## Getting Started
 
