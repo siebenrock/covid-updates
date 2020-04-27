@@ -8,8 +8,7 @@ Given the current situation with COVID-19, we decided to explore the possibility
 For this reason, we worked on an API that will get the most recent COVID-19 confirmed/deaths/recovered cases and delivered this information based on user location.
 
 ## System Architecture
-![Sytem Architecture Image]
-(https://github.com/siebenrock/backend-project/blob/master/Flow.png)
+![Flow Diagram](https://github.com/siebenrock/backend-project/blob/master/Flow.png "Flow Diagram")
 
 ## Getting Started
 
