@@ -74,10 +74,6 @@ To run tests for the userserver endpoints (this endpoints register new user and 
 python tests.py
 ```
 
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With
 
 * [Flask](https://flask.palletsprojects.com/en/1.1.x/) - The web development used
