@@ -3,5 +3,4 @@ flask_restful
 mysqlclient==1.4.6
 requests
 pandas
-io
 datetime
