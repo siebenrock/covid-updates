@@ -72,10 +72,11 @@ app = Flask(__name__)
 
 def sensor():
     """ Function for test purposes. """
+    requests.get("https://covid-api.onrender.com/update")
     requests.post("http://localhost:5000/send")
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(sensor,'interval',minutes=1)
+sched.add_job(sensor,'interval',minutes=.25)
 sched.start()
 
 search = None
@@ -225,7 +226,7 @@ def sendSMS(msg, number):
         return 'failed'
 
 def getUsers():
-    search = get_search()
+    search = SearchEngine(simple_zipcode=True)
     cursor = get_db_connection()
 
     cursor.execute("SELECT name, surname, phone, zipcode from users")
@@ -242,15 +243,16 @@ def getUsers():
     return list_users
 
 def getCovidData(zipcode):
-    zipcode = search.by_zipcode(zipcode)
+    search = SearchEngine(simple_zipcode=True)
+    zipcode = search.by_zipcode(str(zipcode))
     zipcode = zipcode.to_dict()
     state = states[zipcode["state"]].lower()
     county = zipcode["county"].replace(" County", "").lower()
-    url = "http://arielms.pythonanywhere.com/query/{state}/{county}".format(
+    url = "https://covid-api.onrender.com/get?state={state}&county={county}".format(
         state=state, county=county)
     response = requests.get(url)
+    print(json.loads(response.text))
     response_dict = json.loads(response.text)
-    response_dict = dict(response_dict[0])
     msg = "COVID UPDATE " + state.upper() + ", " + county.upper() + " COUNTY. DATE: "+ str(response_dict['Date']) + "\n" \
     "There are " + str(response_dict['Confirmed']) + " confirmed caes.\n" + \
     "There are " + str(response_dict['Deaths']) + " confirmed deaths.\n" + \
