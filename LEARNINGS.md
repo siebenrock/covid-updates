@@ -2,6 +2,8 @@
 
 Given a user’s location, our service will return the updated number of COVID-19 cases in their county.  A user can enter their name, phone number, and zipcode to sign up. Once subscribed, they will receive a daily text message with updated statistics. Additionally, other services and applications can call our covid API in the case that they want to retrieve the most recent covid-19 data on a county basis!
 
+![Signup](./signup.png "Signup")
+
 
 
 ## Why We Built It
@@ -12,7 +14,7 @@ For this reason, we worked on an API that will get the most recent COVID-19 conf
 
 
 ## System Architecture
-![Flow Diagram](./Flow.png "Flow Diagram")
+![Flow Diagram](./flow.png "Flow Diagram")
 
 
 
