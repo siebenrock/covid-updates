@@ -1,8 +1,6 @@
 # Local Covid-19 API Notifications
 
-INFO 253B: Back-End Web Architecture
-
-Group Project
+INFO 253B: Back-End Web Architecture, Group Project
 
 
 

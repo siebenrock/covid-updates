@@ -80,7 +80,7 @@ async function draw_map() {
     region: 'US',
     displayMode: 'regions',
     resolution: 'provinces',
-    width: $(window).width() > 550 ? 670 : 380,
+    width: $(window).width() > 600 ? 670 : 320,
     backgroundColor: {
       fill: '#191a24',
     },
