@@ -4,6 +4,8 @@ Given a user’s location, our service will return the updated number of COVID-1
 
 ![Signup](./signup.png "Signup")
 
+![Text Message](./text-message.png "Text Message")
+
 
 
 ## Why We Built It
@@ -16,7 +18,17 @@ For this reason, we worked on an API that will get the most recent COVID-19 conf
 ## System Architecture
 ![Flow Diagram](./flow.png "Flow Diagram")
 
-## User API
+
+
+## APIs
+
+### Covid-19 Data API
+
+*Kai works on*
+
+
+
+### User API
 
 The goal of user API represented in the diagram above is to contain the endpoints necessary to:
 
@@ -28,6 +40,8 @@ The goal of user API represented in the diagram above is to contain the endpoint
     * Success: 200
     * Error: "error: couldn't register user", 400
 
+
+
 #### Update user information
 
     * URL: /update
@@ -35,6 +49,8 @@ The goal of user API represented in the diagram above is to contain the endpoint
     * Params: first_name=<name>&last_name=<lastname>&last_phone=<+555555555>&new_phone=<+0000000000>&zipcode=<code>
     * Success: 200
     * Error: "error: user doesn't exist", 400
+
+
 
 #### Unsubscribe a user
 
@@ -45,16 +61,18 @@ The goal of user API represented in the diagram above is to contain the endpoint
     * Error: "error: user doesn't exist", 404
 
 
-## Implementation Details
 
-### Deployment
-- The COVID API was deployed to Render as web service in its own docker container. It can be found at https://covid-api.onrender.com. 
-- We used AWS - EC2 (Ubuntu OS) Instance to deploy the User API. It can be accessed at http://3.12.83.161:5000/. We used AWS over Render because of the flexibility and better logging system.
+## Deployment
+
+- The COVID API was deployed to Render as web service in its own docker container; it can be found at https://covid-api.onrender.com
+- We used an AWS - EC2 (Ubuntu OS) Instance to deploy the User API which can be accessed at http://3.12.83.161:5000/
+
 
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
 
 
 ### Prerequisites
