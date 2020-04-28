@@ -4,6 +4,8 @@ Given a user’s location, our service will return the updated number of COVID-1
 
 ![Signup](./signup.png "Signup")
 
+![Text Message](./text-message.png "Text Message")
+
 
 
 ## Why We Built It
@@ -16,12 +18,26 @@ For this reason, we worked on an API that will get the most recent COVID-19 conf
 ## System Architecture
 ![Flow Diagram](./flow.png "Flow Diagram")
 
+## APIs
 
-## Implementation Details
+### Covid-19 Data API
 
-### Deployment
-- The COVID API was deployed to Render as web service in its own docker container. It can be found at https://covid-api.onrender.com. 
-- We used AWS - EC2 (Ubuntu OS) Instance to deploy the User API. It can be accessed at http://3.12.83.161:5000/. We used AWS over Render because of the flexibility and better logging system.
+
+
+
+
+### User Management API
+
+--- include ---
+
+
+
+## Deployment
+
+- The COVID API was deployed to Render as web service in its own docker container; it can be found at https://covid-api.onrender.com
+- We used an AWS - EC2 (Ubuntu OS) Instance to deploy the User API which can be accessed at http://3.12.83.161:5000/
+
+
 
 
 ## Getting Started
@@ -118,6 +134,8 @@ python tests.py
 
 
 ## Built With
+
+![Built With](./built-with.png "Built With")
 
 * [Flask](https://flask.palletsprojects.com/en/1.1.x/) - Micro web framework for APIs
 * [Twilio](https://www.twilio.com) - Cloud communications platform for SMS
