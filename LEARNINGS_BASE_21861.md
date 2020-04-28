@@ -16,34 +16,6 @@ For this reason, we worked on an API that will get the most recent COVID-19 conf
 ## System Architecture
 ![Flow Diagram](./flow.png "Flow Diagram")
 
-## User API
-
-The goal of user API represented in the diagram above is to contain the endpoints necessary to:
-
-#### Register a new user
-
-    * URL: /users/:id
-    * Method: GET, POST
-    * Params: first_name=<name>&last_name=<last>&phone=<phone>zipcode=<zipcode>
-    * Success: 200
-    * Error: "error: couldn't register user", 400
-
-#### Update user information
-
-    * URL: /update
-    * Method: POST
-    * Params: first_name=<name>&last_name=<lastname>&last_phone=<+555555555>&new_phone=<+0000000000>&zipcode=<code>
-    * Success: 200
-    * Error: "error: user doesn't exist", 400
-
-#### Unsubscribe a user
-
-    * URL: /unsubscribe
-    * Method: POST
-    * Params: phone=<phone>
-    * Success: 200
-    * Error: "error: user doesn't exist", 404
-
 
 ## Implementation Details
 
@@ -55,6 +27,7 @@ The goal of user API represented in the diagram above is to contain the endpoint
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
 
 
 ### Prerequisites
@@ -145,8 +118,6 @@ python tests.py
 
 
 ## Built With
-
-![Built With](./built-with.png "Built With")
 
 * [Flask](https://flask.palletsprojects.com/en/1.1.x/) - Micro web framework for APIs
 * [Twilio](https://www.twilio.com) - Cloud communications platform for SMS

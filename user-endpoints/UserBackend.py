@@ -70,13 +70,15 @@ states = {
 # Initiate app
 app = Flask(__name__)
 
+
 def sensor():
     """ Function for test purposes. """
     requests.get("https://covid-api.onrender.com/update")
     requests.post("http://localhost:5000/send")
 
+
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(sensor,'interval',minutes=.25)
+sched.add_job(sensor, 'interval', minutes=.25)
 sched.start()
 
 search = None
@@ -103,6 +105,7 @@ def get_search():
 @app.route("/")
 def label():
     return jsonify({"Description": "USER API"}), 200
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register_user():
@@ -154,13 +157,18 @@ def update_user():
         cursor.execute(sql, [name, surname, new_phone, zipcode, last_phone])
         db.commit()
         if new_phone != last_phone:
-        	msg_last = "You have updated your information. You will no longer be receiving COVID Updates at " + str(last_phone) + ". You will now recieve updates at " + str(new_phone)
-        	sendSMS(msg_last, last_phone)
-        	msg_new = "You have updated your information. You will now receive COVID Updates at " + str(new_phone) + ". You will no longer be receiving COVID Updates at " + str(last_phone)
-        	sendSMS(msg_new, new_phone)
-       	else:
-       		msg = "You have updated your information."
-       		sendSMS(msg, new_phone)
+            msg_last = "You have updated your information. You will no longer be receiving COVID Updates at " + \
+                str(last_phone) + \
+                ". You will now recieve updates at " + str(new_phone)
+            sendSMS(msg_last, last_phone)
+            msg_new = "You have updated your information. You will now receive COVID Updates at " + \
+                str(new_phone) + \
+                ". You will no longer be receiving COVID Updates at " + \
+                str(last_phone)
+            sendSMS(msg_new, new_phone)
+        else:
+            msg = "You have updated your information."
+            sendSMS(msg, new_phone)
         return (''), 200
     else:
         return "error: user doesn't exist", 400
@@ -228,24 +236,27 @@ def exists(phone):
     except:
         return False
 
+
 def getTwilioClient():
     account_sid = 'AC71c18c3fb2750f45f156ba3a884204b0'
     auth_token = 'dcf2070f53ebf5da9082aaa6941abad0'
     client = Client(account_sid, auth_token)
     return client
 
+
 def sendSMS(msg, number):
     client = getTwilioClient()
     try:
         message = client.messages \
             .create(
-                 body=str(msg),
-                 messaging_service_sid='MG1e4b8901eff112fe61c2292994d6f5c9',
-                 to=str(number)
-             )
+                body=str(msg),
+                messaging_service_sid='MG1e4b8901eff112fe61c2292994d6f5c9',
+                to=str(number)
+            )
         return 'sent'
     except:
         return 'failed'
+
 
 def getUsers():
     search = SearchEngine(simple_zipcode=True)
@@ -264,6 +275,7 @@ def getUsers():
 
     return list_users
 
+
 def getCovidData(zipcode):
     try:
         search = SearchEngine(simple_zipcode=True)
@@ -276,14 +288,16 @@ def getCovidData(zipcode):
         response = requests.get(url)
         response_dict = json.loads(response.text)
         if str(response_dict['Recovered']) == '0':
-            msg = "COVID UPDATE " + state.upper() + ", " + county.upper() + " COUNTY. DATE: "+ str(response_dict['Date']) + "\n" \
-            "There are " + str(response_dict['Confirmed']) + " confirmed cases.\n" + \
-            "There are " + str(response_dict['Deaths']) + " confirmed deaths."
+            msg = "COVID UPDATE " + state.upper() + ", " + county.upper() + " COUNTY. DATE: " + str(response_dict['Date']) + "\n" \
+                "There are " + str(response_dict['Confirmed']) + " confirmed cases.\n" + \
+                "There are " + \
+                str(response_dict['Deaths']) + " confirmed deaths."
         else:
-            msg = "COVID UPDATE " + state.upper() + ", " + county.upper() + " COUNTY. DATE: "+ str(response_dict['Date']) + "\n" \
-            "There are " + str(response_dict['Confirmed']) + " confirmed cases.\n" + \
-            "There are " + str(response_dict['Deaths']) + " confirmed deaths.\n" + \
-            "There are " + str(response_dict['Recovered']) + " confirmed recoveries."
+            msg = "COVID UPDATE " + state.upper() + ", " + county.upper() + " COUNTY. DATE: " + str(response_dict['Date']) + "\n" \
+                "There are " + str(response_dict['Confirmed']) + " confirmed cases.\n" + \
+                "There are " + str(response_dict['Deaths']) + " confirmed deaths.\n" + \
+                "There are " + \
+                str(response_dict['Recovered']) + " confirmed recoveries."
         return msg
     except:
         return "error"

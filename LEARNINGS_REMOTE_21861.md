@@ -146,8 +146,6 @@ python tests.py
 
 ## Built With
 
-![Built With](./built-with.png "Built With")
-
 * [Flask](https://flask.palletsprojects.com/en/1.1.x/) - Micro web framework for APIs
 * [Twilio](https://www.twilio.com) - Cloud communications platform for SMS
 * [Docker](https://www.docker.com/) - Virtualization

@@ -4,6 +4,8 @@ Given a user’s location, our service will return the updated number of COVID-1
 
 ![Signup](./signup.png "Signup")
 
+![Text Message](./text-message.png "Text Message")
+
 
 
 ## Why We Built It
@@ -16,6 +18,26 @@ For this reason, we worked on an API that will get the most recent COVID-19 conf
 ## System Architecture
 ![Flow Diagram](./flow.png "Flow Diagram")
 
+<<<<<<< HEAD
+## APIs
+
+### Covid-19 Data API
+
+
+
+
+
+### User Management API
+
+--- include ---
+
+
+
+## Deployment
+
+- The COVID API was deployed to Render as web service in its own docker container; it can be found at https://covid-api.onrender.com
+- We used an AWS - EC2 (Ubuntu OS) Instance to deploy the User API which can be accessed at http://3.12.83.161:5000/
+=======
 ## User API
 
 The goal of user API represented in the diagram above is to contain the endpoints necessary to:
@@ -44,12 +66,9 @@ The goal of user API represented in the diagram above is to contain the endpoint
     * Success: 200
     * Error: "error: user doesn't exist", 404
 
+>>>>>>> c1a6303508aceeb69f7103d9c384281dab77f6bd
 
-## Implementation Details
 
-### Deployment
-- The COVID API was deployed to Render as web service in its own docker container. It can be found at https://covid-api.onrender.com. 
-- We used AWS - EC2 (Ubuntu OS) Instance to deploy the User API. It can be accessed at http://3.12.83.161:5000/. We used AWS over Render because of the flexibility and better logging system.
 
 
 ## Getting Started
