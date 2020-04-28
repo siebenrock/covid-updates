@@ -14,7 +14,7 @@ For this reason, we worked on an API that will get the most recent COVID-19 conf
 
 
 ## System Architecture
-![Flow Diagram](./flow.png "Flow Diagram")
+![Flow Diagram](./Flow.png "Flow Diagram")
 
 
 
