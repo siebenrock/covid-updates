@@ -17,6 +17,11 @@ For this reason, we worked on an API that will get the most recent COVID-19 conf
 ![Flow Diagram](./flow.png "Flow Diagram")
 
 
+## Implementation Details
+
+### Deployment
+The COVID API was deployed to Render as web service in its own docker container. It can be found at https://covid-api.onrender.com. Though we considered using render for the User API, we ended up using AWS. 
+
 
 ## Getting Started
 
