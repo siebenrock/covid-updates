@@ -2,9 +2,9 @@
 
 Given a user’s location, our service will return the updated number of COVID-19 cases in their county.  A user can enter their name, phone number, and zip code to sign up. Once subscribed, they will receive a daily text message with updated statistics. Additionally, other services and applications can call our Covid-19 API in the case that they want to retrieve the most recent Covid-19 data on a county basis!
 
-![Signup](./signup.png "Signup")
+![Signup](./images/signup.png "Signup")
 
-![Text Message](./text-message.png "Text Message")
+![Text Message](./images/text-message.png "Text Message")
 
 
 
@@ -16,7 +16,7 @@ For this reason, we worked on an API that will get the most recent COVID-19 conf
 
 
 ## System Architecture
-![Flow Diagram](./flow.png "Flow Diagram")
+![Flow Diagram](./images/flow.png "Flow Diagram")
 
 
 
@@ -207,7 +207,7 @@ python tests.py
 
 ## Built With
 
-![Built With](./built-with.png "Built With")
+![Built With](./images/built-with.png "Built With")
 
 * [Flask](https://flask.palletsprojects.com/en/1.1.x/) - Micro web framework for APIs
 * [Twilio](https://www.twilio.com) - Cloud communications platform for SMS
