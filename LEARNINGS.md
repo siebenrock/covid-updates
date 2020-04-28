@@ -24,7 +24,49 @@ For this reason, we worked on an API that will get the most recent COVID-19 conf
 
 ### Covid-19 Data API
 
-*Kai works on*
+The data API retrieves the current case numbers. The data is available in a repository by Johns Hopkins CSSE on [Github](https://github.com/CSSEGISandData/COVID-19) as a *.csv* file. Our script automatically retrieved the newest daily report file available and converts it to a pandas data frame while parsing time and dates. All states and counties are encoded to align with the User API. Additionaly, we save a *.csv* copy of the cleaned data frame.
+
+Depending on the user's request parameters, the API can return the total for the U.S., for a specific state, or a specific county. The response also include the date of the last update.
+
+A dedicated states API returns the sum of cases for each state. This data is then shown on the geo chart on the user signup website.
+
+
+
+#### Update data
+
+    * URL: /update
+    * Method: GET
+    * Success: "Data updated", 200
+    * Error: "Error retrieving file from GitHub", 400
+    * Error: "Error while handling df", 400
+
+
+
+#### Check last update
+
+    * URL: /last_update
+    * Method: GET
+    * Success: [Date of last update], 200
+    * Error: "No data", 400
+
+
+
+#### Get data for specific state (and county)
+
+    * URL: /get
+    * Method: GET
+    * Params: state=<state>&county=<county>
+    * Success: {Confirmed, Deaths, Recovered}, 200
+    * Error: "No data", 400
+
+
+
+#### Get data for all states
+
+    * URL: /states
+    * Method: GET
+    * Success: {state: {Confirmed, Deaths, Recovered}}, 200
+    * Error: "No data", 400
 
 
 
