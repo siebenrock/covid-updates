@@ -1,5 +1,11 @@
 # Local Covid-19 API Notifications
 
+INFO 253B: Back-End Web Architecture
+
+Group Project
+
+
+
 - [Signup Website](https://kaisiebenrock.com/backend-project/)
 - [Learnings](./LEARNINGS.md)
 
