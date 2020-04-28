@@ -86,7 +86,7 @@ async function draw_map() {
     },
     datalessRegionColor: '#191a24',
     colorAxis: {
-      colors: ['#430708', '#AF0C1B', '#C20A1B', '#EB0015'],
+      colors: ['#26085F', '#790F19', '#860C17', '#930B17', '#A50A18', '#B80918', '#CD0617', '#DA0316', '#EB0015'],
       minValue: 0,
     },
     tooltip: {

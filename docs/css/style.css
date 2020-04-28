@@ -56,8 +56,8 @@ label {
   margin-bottom: 30px;
 }
 
-.btn {
-  opacity: 0.5;
+.btn-outline-secondary {
+  opacity: 0.6;
 }
 
 #last_update {

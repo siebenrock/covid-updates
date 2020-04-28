@@ -8,7 +8,7 @@
 //     inputs.each(function(index) {
 //       var input = $(this);
 //       if (!input.val() || (input.type === "radio" && !input.is(":checked"))) {
-//         $("#subuser").attr("disabled", "disabled");
+//         $("#subuserXXXXXXXXXXXX").attr("disabled", "disabled");
 //         validForm = false;
 //       }
 //     });
@@ -18,7 +18,7 @@
 //
 //   inputs.change(function() {
 //     if (validateInputs(inputs)) {
-//       $("#subuser").removeAttr("disabled");
+//       $("#subuserXXXXXXXXXX").removeAttr("disabled");
 //     }
 //   });
 // });
