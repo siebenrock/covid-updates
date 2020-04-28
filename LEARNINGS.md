@@ -1,6 +1,6 @@
 # COVID-19 API
 
-Given a user’s location, our service will return the updated number of COVID-19 cases in their county.  A user can enter their name, phone number, and zipcode to sign up. Once subscribed, they will receive a daily text message with updated statistics. Additionally, other services and applications can call our covid API in the case that they want to retrieve the most recent covid-19 data on a county basis!
+Given a user’s location, our service will return the updated number of COVID-19 cases in their county.  A user can enter their name, phone number, and zip code to sign up. Once subscribed, they will receive a daily text message with updated statistics. Additionally, other services and applications can call our Covid-19 API in the case that they want to retrieve the most recent Covid-19 data on a county basis!
 
 ![Signup](./signup.png "Signup")
 
@@ -24,7 +24,7 @@ For this reason, we worked on an API that will get the most recent COVID-19 conf
 
 ### Covid-19 Data API
 
-The data API retrieves the current case numbers. The data is available in a repository by Johns Hopkins CSSE on [Github](https://github.com/CSSEGISandData/COVID-19) as a *.csv* file. Our script automatically retrieved the newest daily report file available and converts it to a pandas data frame while parsing time and dates. All states and counties are encoded to align with the User API. Additionaly, we save a *.csv* copy of the cleaned data frame.
+The data API retrieves the current case numbers. The data is available in a repository by Johns Hopkins CSSE on [Github](https://github.com/CSSEGISandData/COVID-19) as a *.csv* file. Our script automatically retrieves the newest daily report file available and converts it to a pandas data frame while parsing time and dates. All states and counties are encoded to align with the User API. Additionally, we save a *.csv* copy of the cleaned data frame.
 
 Depending on the user's request parameters, the API can return the total for the U.S., for a specific state, or a specific county. The response also include the date of the last update.
 
@@ -106,7 +106,7 @@ The goal of user API represented in the diagram above is to contain the endpoint
 
 ## Deployment
 
-- The COVID API was deployed to Render as web service in its own docker container; it can be found at https://covid-api.onrender.com
+- The Covid data API was deployed to Render as web service in its own docker container; it can be found at https://covid-api.onrender.com
 - We used an AWS - EC2 (Ubuntu OS) Instance to deploy the User API which can be accessed at http://3.12.83.161:5000/
 
 
@@ -125,13 +125,14 @@ For you to run this API the following dependencies should be installed:
 * flask_restful
 * mysqlclient
 * requests
+* pandas
 * uszipcode
 * twilio
 * apscheduler
 
-Apart from this python libraries, it is important to have docker installed.
+Apart from these Python libraries, it is important to have Docker installed.
 
-*Note:* for Windows users please install docker toolbox.
+*Note:* for Windows users please install Docker toolbox.
 
 
 
@@ -145,7 +146,7 @@ In your CMD run
 docker network create <name-of-network>
 ```
 
-inside the user-endpoints directory run. The command bellow assumes the existence of Dockerfile.
+Inside the user-endpoints directory run the command bellow assumes the existence of Dockerfile.
 
 ```
 docker build -t <image name> .
@@ -164,10 +165,10 @@ docker run --name <name-of-db-container> -e MYSQL_ROOT_PASSWORD=<password> -e MY
 The above command will:
 
 1. Download MySQL image
-2. Create a new database with credentials passwod.
+2. Create a new database with credentials password.
 3. Start the container with name: name-of-db-container
 
-For more useful commands please check the setup.sh inside user-endpoints directory.
+For more useful commands, please check the setup.sh inside user-endpoints directory.
 
 *Note:* Run the following commands to create the table inside the database:
 
@@ -195,7 +196,7 @@ CREATE TABLE users (
 
 ## Running Tests
 
-To run tests for the userserver endpoints (this endpoints register new user and send messages via Twilio) run:
+To run tests for the user server endpoints which register new users and send messages via Twilio:
 
 ```
 # run this inside user-endpoints directory
@@ -212,4 +213,4 @@ python tests.py
 * [Twilio](https://www.twilio.com) - Cloud communications platform for SMS
 * [Docker](https://www.docker.com/) - Virtualization
 * [MySQL](https://www.mysql.com/) - Relational database management system
-* [CSSEGISandData](https://github.com/CSSEGISandData/COVID-19) - Covid data source
+* [CSSEGISandData](https://github.com/CSSEGISandData/COVID-19) - Covid-19 data source
