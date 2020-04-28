@@ -44,6 +44,14 @@ The goal of user API represented in the diagram above is to contain the endpoint
     * Success: 200
     * Error: "error: user doesn't exist", 404
 
+
+## Implementation Details
+
+### Deployment
+- The COVID API was deployed to Render as web service in its own docker container. It can be found at https://covid-api.onrender.com. 
+- We used AWS - EC2 (Ubuntu OS) Instance to deploy the User API. It can be accessed at http://3.12.83.161:5000/. We used AWS over Render because of the flexibility and better logging system.
+
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
