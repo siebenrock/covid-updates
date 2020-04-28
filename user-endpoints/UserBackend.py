@@ -78,7 +78,8 @@ def sensor():
 
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(sensor, 'interval', minutes=.25)
+# sched.add_job(sensor, 'interval', minutes=.25)
+sched.add_job(sensor, 'cron', day_of_week='*', hour=9)
 sched.start()
 
 search = None
