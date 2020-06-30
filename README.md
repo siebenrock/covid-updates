@@ -2,9 +2,7 @@
 
 INFO 253B: Back-End Web Architecture, Group Project
 
-
-
-- [Signup Website](https://kaisiebenrock.com/backend-project/)
+- [Signup Website](https://siebenrock.github.io/covid-updates)
 - [Learnings](./LEARNINGS.md)
 
 
